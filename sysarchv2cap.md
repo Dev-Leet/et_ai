@@ -1,4 +1,4 @@
----
+
 
 ## **Layer 1 — Data Ingestion**
 
@@ -10,7 +10,7 @@
 | Ingestion/dataflow orchestration | Apache NiFi | **n8n Cloud (free tier)** or simple Python scripts triggered by Supabase Edge Functions | NiFi is a heavyweight enterprise tool. n8n's free cloud tier gives visual workflow building without hosting infrastructure. For a project this size, even a scheduled Python script (via GitHub Actions cron) is often enough. |
 | Email ingestion | Apache James | **Gmail API (free quota)** or IMAP via Python `imaplib` | No mail server needed — just pull from a Gmail account via API, well within free quota for a student volume of emails. |
 
----
+
 
 ## 
 
