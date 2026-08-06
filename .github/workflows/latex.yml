@@ -133,14 +133,14 @@ jobs:
           echo -e "\033[0;31m========== FAILED ==========\033[0m"
           grep "^FAILED" /tmp/status-*.txt | cut -d'|' -f2 || echo "None"
           echo "::endgroup::"
-
+    
       - name: Commit Updated PDFs
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # Add only PDF files
-          git add "**/*.pdf"
+          # Safely find and stage all PDFs without triggering glob errors
+          find . -type f -name "*.pdf" -exec git add {} +
           
           # Check if there are any staged changes
           if git diff --staged --quiet; then
