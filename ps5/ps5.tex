@@ -1,0 +1,56 @@
+\documentclass[11pt, a4paper]{article}
+% --- UNIVERSAL PREAMBLE BLOCK ---
+\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2cm, right=2cm]{geometry}
+\usepackage{fontspec}
+\usepackage[english]{babel}
+\babelprovide[import, onchar=ids fonts]{english}
+\babelfont{Noto Sans}
+
+\usepackage{enumitem}
+\usepackage{parskip}
+
+\begin{document}
+
+\begin{center}
+    \Large\textbf{Unstructured Data Analytics: NLP Corporate Risk Ledger} \\
+    \normalsize\textit{Theme: Corporate Finance / Natural Language Processing / Graph Analytics}
+\end{center}
+\vspace{0.8cm}
+
+\noindent\textbf{Problem Statement Number:} 5
+
+\vspace{0.4cm}
+\noindent\textbf{Problem Context:} Financial institutions and asset managers face immense financial exposure from corporate deception, undisclosed litigation risks, and impending regulatory penalties that are entirely invisible within standard numerical financial statements. Because the earliest signals of corporate distress or fraud are often buried deeply in unstructured text—such as earnings call transcripts, legal filings, and executive communications—analysts require automated, NLP-driven pipelines to quantify and visualize qualitative risk across massive portfolios.
+
+\vspace{0.4cm}
+\noindent\textbf{Challenge Statement:} Develop an NLP-driven corporate risk ledger that continuously ingests unstructured financial disclosures and news streams, utilizes deep learning to identify deception cues and litigation threats, and structures this data into a predictive risk scoring dashboard.
+
+\vspace{0.4cm}
+\noindent\textbf{What you may build:} An intelligent risk analytics platform tailored specifically for institutional investors or corporate compliance officers. The system operates via an automated data pipeline that continuously ingests textual data from financial APIs and public filings. A domain-specific Transformer model processes the text to extract negative sentiment, forward-looking legal risks, and linguistic deception markers. The extracted entities and risk scores are mapped directly into a Knowledge Graph to identify hidden structural connections between executives, shell entities, and historical litigation. The deliverable is a comprehensive dashboard visualizing the complex risk topology of various corporations.
+
+\vspace{0.4cm}
+\noindent\textbf{What is Unique about Project from the already present product ?:} Mainstream financial screeners (like Bloomberg Terminal basics) rely on structured quantitative data (P\&L, margins) or simplistic keyword sentiment analysis. This project is unique because it uses advanced GenAI to extract deeply contextual deception cues and maps them into a Graph Database, allowing users to query multi-hop, hidden structural risks (e.g., "Executive A was previously tied to Entity B which faced litigation C").
+
+\vspace{0.4cm}
+\noindent\textbf{Market Comparison:}
+
+\vspace{0.2cm}
+\noindent\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|p{3.5cm}|p{4.5cm}|p{3.8cm}|p{3.8cm}|}
+\hline
+\textbf{Feature / Aspect} & \textbf{Proposed Capstone Project} & \textbf{AlphaSense} & \textbf{Standard Screeners} \\
+\hline
+\textbf{Data Extraction} & \textbf{GenAI Contextual Parsing} & Keyword/NLP Indexing & Manual/Basic NLP \\
+\hline
+\textbf{Data Structure} & \textbf{Knowledge Graph (Neo4j)} & Search Index & Relational SQL \\
+\hline
+\textbf{Risk Detection} & Multi-hop relational risk & Direct document mention & Quantitative P\&L metrics \\
+\hline
+\textbf{Focus Area} & Structural fraud \& deception & Market research/Trends & Financial ratios \\
+\hline
+\end{tabular}
+
+\vspace{0.4cm}
+\noindent\textbf{Suggested Technologies:} Apache Airflow (Data ingestion scheduling), Hugging Face Transformers (FinBERT for specialized financial NLP), spaCy (Named Entity Recognition), Neo4j (Knowledge Graph database), LangChain (Querying the graph), AWS SageMaker (Model deployment), Dash by Plotly (Interactive data visualization).
+
+\end{document}
