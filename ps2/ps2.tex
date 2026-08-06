@@ -1,0 +1,56 @@
+\documentclass[11pt, a4paper]{article}
+% --- UNIVERSAL PREAMBLE BLOCK ---
+\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2cm, right=2cm]{geometry}
+\usepackage{fontspec}
+\usepackage[english]{babel}
+\babelprovide[import, onchar=ids fonts]{english}
+\babelfont{Noto Sans}
+
+\usepackage{enumitem}
+\usepackage{parskip}
+
+\begin{document}
+
+\begin{center}
+    \Large\textbf{AI for Supply Chain Resilience: Autonomous Digital Twin} \\
+    \normalsize\textit{Theme: Supply Chain / Time-Series Forecasting / Operations Research}
+\end{center}
+\vspace{0.8cm}
+
+\noindent\textbf{Problem Statement Number:} 2
+
+\vspace{0.4cm}
+\noindent\textbf{Problem Context:} Global supply chain networks suffer from severe latency between localized demand signals and manufacturing execution, leading to catastrophic stockouts and massive capital tied up in excess safety inventory. With 86\% of enterprises prioritizing supply chain transformation to mitigate global disruptions, the inability to simulate network failures and optimize Days Inventory Outstanding (DIO) dynamically is a critical vulnerability for multinational manufacturing and retail corporations.
+
+\vspace{0.4cm}
+\noindent\textbf{Challenge Statement:} Construct an AI-powered Digital Twin simulation platform that ingests macroeconomic indicators, historical sales, and real-time transit data to autonomously optimize inventory allocation and predict network disruptions.
+
+\vspace{0.4cm}
+\noindent\textbf{What you may build:} A dynamic supply chain simulation engine paired intimately with a predictive analytics command center dashboard. The core mechanics involve a deep learning time-series forecasting pipeline predicting localized node-level demand, integrated directly with a directed acyclic graph representing the logistics network. When a simulated disruption occurs (e.g., a port closure, labor strike, or unexpected regional demand spike), a linear optimization algorithm automatically calculates the most cost-effective inventory rerouting strategy. The deliverable is an interactive visual environment where operators can manually inject disruptions and watch the AI agent mathematically rebalance the network in real-time.
+
+\vspace{0.4cm}
+\noindent\textbf{What is Unique about Project from the already present product ?:} Traditional ERPs (like SAP or Oracle) and BI dashboards offer static, historical reporting and require human operators to manually configure scenario planning. This project differentiates itself by acting as an autonomous solver using Graph Operations Research; it doesn't just flag a delay, it automatically mathematically calculates and orchestrates the most cost-effective alternative routing path across the network graph.
+
+\vspace{0.4cm}
+\noindent\textbf{Market Comparison:}
+
+\vspace{0.2cm}
+\noindent\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|p{3.5cm}|p{4.5cm}|p{3.8cm}|p{3.8cm}|}
+\hline
+\textbf{Feature / Aspect} & \textbf{Proposed Capstone Project} & \textbf{SAP IBP / Oracle} & \textbf{Standard BI Tools} \\
+\hline
+\textbf{Optimization Approach}& \textbf{Autonomous Graph Solver} & Manual Scenario Planning & No Optimization \\
+\hline
+\textbf{Data Architecture} & Graph Database (Neo4j) & Relational SQL & Data Warehouse / OLAP \\
+\hline
+\textbf{Disruption Response} & Mathematically recalculates routes & Flags delay for human review & Retrospectively logs delay \\
+\hline
+\textbf{Forecasting Model} & Deep Learning Time-Series & Statistical Baselines & Moving Averages \\
+\hline
+\end{tabular}
+
+\vspace{0.4cm}
+\noindent\textbf{Suggested Technologies:} Apache Airflow (DAG orchestration), PyTorch LSTMs or Temporal Fusion Transformers (Time-series forecasting), NetworkX (Graph modeling and routing), Gurobi or SciPy (Linear programming and flow optimization), Neo4j (Graph database), React or Streamlit (Visualization frontend), Microsoft Azure (Cloud hosting).
+
+\end{document}
