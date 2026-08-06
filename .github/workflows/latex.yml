@@ -1,61 +1,153 @@
-name: Compile Changed LaTeX Files
+name: Enterprise LaTeX Auto-Builder
 
 on:
   push:
+    paths:
+      - '**/*.tex'                  # Trigger ONLY on .tex file changes
     branches:
-      - main
+      - main                        # Change to master if needed
 
 permissions:
-  contents: write
+  contents: write                   # Required to push PDFs back to the repo
 
 jobs:
-  compile:
+  # ==========================================
+  # JOB 1: Detect Changed Projects intelligently
+  # ==========================================
+  detect-changes:
     runs-on: ubuntu-latest
-
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2
+          fetch-depth: 0            # Fetch all history for precise diffing
 
-      - name: Install XeLaTeX
+      - name: Get Changed .tex Files
+        id: changed-files
+        uses: tj-actions/changed-files@v44
+        with:
+          files: '**/*.tex'
+          json: true                # Automatically outputs a safe JSON array
+          escape_json: false
+
+      - name: Set Dynamic Matrix
+        id: set-matrix
         run: |
-          sudo apt-get update
-          sudo apt-get install -y texlive-xetex latexmk
-
-      - name: Find Changed TeX Files
-        id: changed
-        run: |
-          files=$(git diff --name-only HEAD~1 HEAD | grep '\.tex$' || true)
-
-          echo "Changed files:"
-          echo "$files"
-
-          echo "FILES<<EOF" >> $GITHUB_OUTPUT
-          echo "$files" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-
-      - name: Compile Changed Files
-        run: |
-          while IFS= read -r file
-          do
-            if [ -n "$file" ]; then
-              echo "Compiling $file"
-              latexmk -xelatex "$file"
-            fi
-          done <<< "${{ steps.changed.outputs.FILES }}"
-
-      - name: Commit Generated PDFs
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-
-          git add '*.pdf'
-
-          if git diff --cached --quiet; then
-            echo "No PDF changes."
+          # If no added or modified .tex files are found (e.g., only deletions), output empty
+          if [ "${{ steps.changed-files.outputs.added_modified }}" == "[]" ] || [ -z "${{ steps.changed-files.outputs.added_modified }}" ]; then
+            echo "matrix=[]" >> $GITHUB_OUTPUT
+            echo "No .tex files to compile."
           else
-            git commit -m "Auto-generated PDFs"
+            echo "matrix=${{ steps.changed-files.outputs.added_modified }}" >> $GITHUB_OUTPUT
+          fi
+
+  # ==========================================
+  # JOB 2: Parallel Compilation Matrix
+  # ==========================================
+  compile-projects:
+    needs: detect-changes
+    if: ${{ needs.detect-changes.outputs.matrix != '[]' }}
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/xu-cheng/texlive-full:latest # Zero-install, cached, full TeX Live environment
+    strategy:
+      fail-fast: false                            # If one project fails, continue compiling the rest
+      matrix:
+        file: ${{ fromJSON(needs.detect-changes.outputs.matrix) }}
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Smart Compile (XeLaTeX / LuaLaTeX)
+        id: compile
+        run: |
+          FILE="${{ matrix.file }}"
+          DIR=$(dirname "$FILE")
+          BASENAME=$(basename "$FILE")
+          PDF_FILE="${FILE%.tex}.pdf"
+          
+          # Navigate into the project directory so latexmk finds local images/bibs
+          cd "$DIR" || exit 1
+          
+          echo "::group::Engine Detection for $BASENAME"
+          # Auto-detect LuaLaTeX specific packages (like bidi=basic used in your Problem Statements)
+          if grep -Eq "bidi=basic|luatex|luacode" "$BASENAME"; then
+            echo "Detected LuaTeX specific packages. Selecting LuaLaTeX."
+            ENGINE="-lualatex"
+          else
+            echo "Selecting default XeLaTeX."
+            ENGINE="-xelatex"
+          fi
+          echo "::endgroup::"
+          
+          echo "::group::Compiling $BASENAME"
+          # latexmk handles multiple passes, bibtex/biber, and TOC generation automatically
+          if latexmk $ENGINE -interaction=nonstopmode -halt-on-error -file-line-error -bibtex "$BASENAME"; then
+            echo "pdf_path=$PDF_FILE" >> $GITHUB_OUTPUT
+            echo "status=SUCCESS|${FILE}" > /tmp/status-${{ strategy.job-index }}.txt
+          else
+            echo "status=FAILED|${FILE}" > /tmp/status-${{ strategy.job-index }}.txt
+            exit 1 # Fail the step to mark matrix leg as failed
+          fi
+          echo "::endgroup::"
+
+      - name: Upload PDF and Status Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-result-${{ strategy.job-index }}
+          path: |
+            ${{ steps.compile.outputs.pdf_path }}
+            /tmp/status-${{ strategy.job-index }}.txt
+          retention-days: 1
+          if-no-files-found: ignore
+
+  # ==========================================
+  # JOB 3: Aggregate, Report, and Commit
+  # ==========================================
+  commit-and-report:
+    needs: [detect-changes, compile-projects]
+    if: ${{ always() && needs.detect-changes.outputs.matrix != '[]' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download Compiled Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: .
+          merge-multiple: true # Overlays all PDFs directly into their correct project folders
+
+      - name: Generate Build Summary Report
+        run: |
+          echo "::group::Enterprise Build Summary"
+          echo -e "\033[0;32m========== SUCCEEDED ==========\033[0m"
+          grep "^SUCCESS" /tmp/status-*.txt | cut -d'|' -f2 || echo "None"
+          echo ""
+          echo -e "\033[0;31m========== FAILED ==========\033[0m"
+          grep "^FAILED" /tmp/status-*.txt | cut -d'|' -f2 || echo "None"
+          echo "::endgroup::"
+
+      - name: Commit Updated PDFs
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Add only PDF files
+          git add "**/*.pdf"
+          
+          # Check if there are any staged changes
+          if git diff --staged --quiet; then
+            echo "No PDF changes detected. Skipping commit."
+          else
+            # The [skip ci] tag is CRITICAL. It prevents infinite workflow loops.
+            git commit -m "chore(latex): auto-compile updated PDFs [skip ci]"
             git push
+            echo "Successfully pushed updated PDFs to repository."
           fi
