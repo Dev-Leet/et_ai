@@ -42,7 +42,7 @@ jobs:
           do
             if [ -n "$file" ]; then
               echo "Compiling $file"
-              latexmk -xelatex "$file"
+              latexmk -lualatex "$file"
             fi
           done <<< "${{ steps.changed.outputs.FILES }}"
 
