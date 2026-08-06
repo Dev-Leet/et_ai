@@ -1,0 +1,56 @@
+\documentclass[11pt, a4paper]{article}
+% --- UNIVERSAL PREAMBLE BLOCK ---
+\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2cm, right=2cm]{geometry}
+\usepackage{fontspec}
+\usepackage[english]{babel}
+\babelprovide[import, onchar=ids fonts]{english}
+\babelfont{Noto Sans}
+
+\usepackage{enumitem}
+\usepackage{parskip}
+
+\begin{document}
+
+\begin{center}
+    \Large\textbf{Agentic AI for Fintech: B2B Pricing Optimization} \\
+    \normalsize\textit{Theme: Fintech / Reinforcement Learning / Pricing Strategy}
+\end{center}
+\vspace{0.8cm}
+
+\noindent\textbf{Problem Statement Number:} 3
+
+\vspace{0.4cm}
+\noindent\textbf{Problem Context:} Traditional static pricing and manual markdown strategies fail to capture optimal profit margins in volatile global markets, often resulting in either lost revenue from underpricing or excessive inventory holding costs from overpricing. The B2B and retail sectors require sophisticated agentic AI systems that can continuously probe price elasticity, maximizing lifetime customer value and executing outcome-based pricing dynamically against rapidly changing macroeconomic conditions.
+
+\vspace{0.4cm}
+\noindent\textbf{Challenge Statement:} Engineer a reinforcement learning-based dynamic pricing agent capable of autonomously adjusting product prices in a simulated marketplace to maximize total profit margin while strictly maintaining target inventory sell-through velocities.
+
+\vspace{0.4cm}
+\noindent\textbf{What you may build:} A sophisticated dynamic pricing engine and underlying marketplace simulator. The solution will feature a simulated environment where virtual customer agents with distinct, hidden willingness-to-pay thresholds interact with a vast product catalog. The core mechanic is a Deep Q-Network or Proximal Policy Optimization agent that continuously observes inventory depletion rates and conversion metrics, autonomously adjusting prices at discrete time steps. The final deliverable is an advanced analytics dashboard displaying the RL agent's learning curve, the absolute revenue lift compared to static pricing baselines, and real-time algorithmic price elasticity curves.
+
+\vspace{0.4cm}
+\noindent\textbf{What is Unique about Project from the already present product ?:} Most retail dynamic pricing engines use hardcoded, rule-based matching (e.g., "always price 1\% lower than a competitor"). This solution employs a Reinforcement Learning agent that learns through environmental interaction, discovering non-obvious pricing strategies that balance the immediate reward of high-margin sales against the long-term penalty of excess inventory holding costs.
+
+\vspace{0.4cm}
+\noindent\textbf{Market Comparison:}
+
+\vspace{0.2cm}
+\noindent\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|p{3.5cm}|p{4.5cm}|p{3.8cm}|p{3.8cm}|}
+\hline
+\textbf{Feature / Aspect} & \textbf{Proposed Capstone Project} & \textbf{PROS Pricing / Pricefx} & \textbf{Standard Repricers} \\
+\hline
+\textbf{Pricing Logic} & \textbf{Reinforcement Learning (PPO)} & Historical ML & Hardcoded Rules (If/Then) \\
+\hline
+\textbf{Environment} & Simulated Buyer Agents & Static market models & API Competitor Scraping \\
+\hline
+\textbf{Objective Function} & Total Margin + Inventory Velocity & Margin Maximization & Beat Competitor by X\% \\
+\hline
+\textbf{Adaptability} & Self-learning continuous updates & Requires model retraining & Manual rule updates \\
+\hline
+\end{tabular}
+
+\vspace{0.4cm}
+\noindent\textbf{Suggested Technologies:} OpenAI Gym / Gymnasium (Custom environment simulation framework), Ray RLlib or PyTorch (Reinforcement learning model architecture), PostgreSQL (Transactional data storage), FastAPI (Agent API serving layer), Apache Superset or Tableau (Business Intelligence Dashboard).
+
+\end{document}
