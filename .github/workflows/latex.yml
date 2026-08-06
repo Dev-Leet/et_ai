@@ -1,0 +1,61 @@
+name: Compile Changed LaTeX Files
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Install XeLaTeX
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y texlive-xetex latexmk
+
+      - name: Find Changed TeX Files
+        id: changed
+        run: |
+          files=$(git diff --name-only HEAD~1 HEAD | grep '\.tex$' || true)
+
+          echo "Changed files:"
+          echo "$files"
+
+          echo "FILES<<EOF" >> $GITHUB_OUTPUT
+          echo "$files" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Compile Changed Files
+        run: |
+          while IFS= read -r file
+          do
+            if [ -n "$file" ]; then
+              echo "Compiling $file"
+              latexmk -xelatex "$file"
+            fi
+          done <<< "${{ steps.changed.outputs.FILES }}"
+
+      - name: Commit Generated PDFs
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+
+          git add '*.pdf'
+
+          if git diff --cached --quiet; then
+            echo "No PDF changes."
+          else
+            git commit -m "Auto-generated PDFs"
+            git push
+          fi
