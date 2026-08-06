@@ -1,0 +1,56 @@
+\documentclass[11pt, a4paper]{article}
+% --- UNIVERSAL PREAMBLE BLOCK ---
+\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2cm, right=2cm]{geometry}
+\usepackage{fontspec}
+\usepackage[english, bidi=basic, provide=*]{babel}
+\babelprovide[import, onchar=ids fonts]{english}
+\babelfont{rm}{Noto Sans}
+
+\usepackage{enumitem}
+\usepackage{parskip}
+
+\begin{document}
+
+\begin{center}
+    \Large\textbf{AI for Retail Intelligence: Reverse Logistics Optimization Brain} \\
+    \normalsize\textit{Theme: E-Commerce / Predictive Analytics / Reinforcement Learning}
+\end{center}
+\vspace{0.8cm}
+
+\noindent\textbf{Problem Statement Number:} 1
+
+\vspace{0.4cm}
+\noindent\textbf{Problem Context:} The retail and e-commerce sector is grappling with a trillion-dollar merchandise return crisis, presenting a \$200 billion annual cost recovery opportunity for enterprises that can optimize their reverse logistics. As consumer behavior shifts and shipping expenses compound exponentially, historical reactive reporting is entirely insufficient to protect profit margins. This has become a massive bottleneck, requiring intelligent systems that not only forecast aggregate return rates but predict individual transaction return probabilities precisely at the point of sale.
+
+\vspace{0.4cm}
+\noindent\textbf{Challenge Statement:} Develop a real-time, AI-driven return prediction and mitigation engine that intercepts high-risk e-commerce transactions before checkout and dynamically alters the user experience to minimize reverse logistics costs.
+
+\vspace{0.4cm}
+\noindent\textbf{What you may build:} An end-to-end agentic orchestration dashboard integrated directly with a simulated e-commerce checkout flow. The core mechanics involve a machine learning classification model estimating the return probability per item-in-cart based on real-time user session behavior. This probability is then routed through a reinforcement learning agent that selects the optimal friction or incentive strategy (e.g., offering a non-refundable discount, enforcing mandatory sizing concierges, or altering the return window dynamically). The final deliverable includes a real-time tracking interface for retail operators to monitor prevented returns, salvaged margins, and dynamic policy deployments.
+
+\vspace{0.4cm}
+\noindent\textbf{What is Unique about Project from the already present product ?:} Most existing reverse logistics tools (like Loop Returns) focus purely on post-purchase portal management or reactive analytics. This project flips the paradigm to \textit{pre-purchase interception}, utilizing predictive AI to assign a risk score to a cart in real-time and GenAI/Reinforcement Learning to dynamically inject a personalized friction or incentive (like a non-refundable discount) to alter consumer behavior before the transaction even finalizes.
+
+\vspace{0.4cm}
+\noindent\textbf{Market Comparison:}
+
+\vspace{0.2cm}
+\noindent\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|p{3.5cm}|p{4.5cm}|p{3.8cm}|p{3.8cm}|}
+\hline
+\textbf{Feature / Aspect} & \textbf{Proposed Capstone Project} & \textbf{Loop Returns / Optoro} & \textbf{Standard Shopify} \\
+\hline
+\textbf{Interception Timing} & \textbf{Pre-purchase} (predictive) & Post-purchase (reactive) & Post-purchase (reactive) \\
+\hline
+\textbf{Decision Engine} & Reinforcement Learning Agent & Hardcoded Boolean Rules & Manual Policy Setup \\
+\hline
+\textbf{Customer UX} & Dynamic (changes per user risk) & Static Return Portal & Static Checkout \\
+\hline
+\textbf{Primary ROI metric} & Prevented Return Margin & Operational Processing Cost & None \\
+\hline
+\end{tabular}
+
+\vspace{0.4cm}
+\noindent\textbf{Suggested Technologies:} Apache Kafka (Real-time data streaming), Snowflake or PostgreSQL (Data warehousing), XGBoost/LightGBM (Propensity classification modeling), Ray RLlib (Decision agent framework), FastAPI (Backend routing), Streamlit or PowerBI (Operator dashboard), Docker (Containerized deployment).
+
+\end{document}
