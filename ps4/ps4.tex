@@ -1,0 +1,56 @@
+\documentclass[11pt, a4paper]{article}
+% --- UNIVERSAL PREAMBLE BLOCK ---
+\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2cm, right=2cm]{geometry}
+\usepackage{fontspec}
+\usepackage[english]{babel}
+\babelprovide[import, onchar=ids fonts]{english}
+\babelfont{Noto Sans}
+
+\usepackage{enumitem}
+\usepackage{parskip}
+
+\begin{document}
+
+\begin{center}
+    \Large\textbf{Explainable AI for Software QA: Defect Prediction Pipeline} \\
+    \normalsize\textit{Theme: Software Engineering / Explainable AI / GenAI MLOps}
+\end{center}
+\vspace{0.8cm}
+
+\noindent\textbf{Problem Statement Number:} 4
+
+\vspace{0.4cm}
+\noindent\textbf{Problem Context:} Software quality assurance teams waste thousands of highly compensated developer hours manually debugging large codebases, leading to delayed product releases and inflated operational expenditures. While static code metrics contain latent statistical patterns indicative of deeper complexities, raw data alone fails to prevent code failures proactively. The technology sector urgently requires predictive algorithms coupled intimately with explainability frameworks to detect structural defects early in the continuous integration pipeline.
+
+\vspace{0.4cm}
+\noindent\textbf{Challenge Statement:} Build an automated machine learning pipeline that predicts software code faults based entirely on static metrics and deploys an Explainable AI layer to provide actionable refactoring insights to software engineers.
+
+\vspace{0.4cm}
+\noindent\textbf{What you may build:} An MLOps-ready predictive diagnostic tool bridging static code analysis with generative natural language generation. The core mechanism is a highly tuned ensemble classifier trained on structural metrics to classify code instances as faulty or clean. To bridge the gap to actionable analytics, SHapley Additive exPlanations (SHAP) will be utilized to isolate the exact mathematical metrics triggering the fault prediction. An integrated Large Language Model will then autonomously parse the complex SHAP outputs and generate plain-English, actionable refactoring recommendations for developers via a web interface.
+
+\vspace{0.4cm}
+\noindent\textbf{What is Unique about Project from the already present product ?:} Standard QA tools like SonarQube merely flag static metrics that breach a predefined threshold. This project bridges the gap between raw diagnostic math and human action by feeding statistical SHAP outputs directly into an LLM. It doesn't just say "Cyclomatic Complexity is too high"; it generates a plain-English, contextual explanation of \textit{why} the specific block will cause a defect and \textit{how} to refactor it.
+
+\vspace{0.4cm}
+\noindent\textbf{Market Comparison:}
+
+\vspace{0.2cm}
+\noindent\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|p{3.5cm}|p{4.5cm}|p{3.8cm}|p{3.8cm}|}
+\hline
+\textbf{Feature / Aspect} & \textbf{Proposed Capstone Project} & \textbf{SonarQube} & \textbf{GitHub Advanced Sec.} \\
+\hline
+\textbf{Diagnostic Method} & \textbf{ML Classification Model} & Static threshold rules & Pattern matching (CodeQL)\\
+\hline
+\textbf{Explainability} & SHAP mathematical isolation & Generic documentation & Syntax highlighting \\
+\hline
+\textbf{Remediation} & LLM contextual refactor advice & Manual developer effort & Auto-fix for basic syntaxes\\
+\hline
+\textbf{Focus Area} & Structural statistical failures & Code smells / Formatting & Security vulnerabilities \\
+\hline
+\end{tabular}
+
+\vspace{0.4cm}
+\noindent\textbf{Suggested Technologies:} Scikit-learn or XGBoost (Classification modeling), SHAP/LIME (Explainable AI frameworks), LangChain \& Hugging Face (Open-source LLM orchestration), MLflow (Experiment tracking and model registry), Flask (API serving), React.js (Developer portal frontend).
+
+\end{document}
